@@ -1,0 +1,165 @@
+float sunX, sunY;        // Position of sun
+float xMarcus, yMarcus;              // Position and speed of Guy
+float dx, dy;
+float xgold, ygold;   //position of gold
+float Gx,Gy;
+
+
+
+// SETUP:  Define screen size, set modes.
+void setup()
+{
+  size(800,600);
+  reset();
+}// Creature follows the mouse, while sun moves across the sky.
+
+
+
+void reset() {
+  sunX=  width/2;         // Sun half-way across the screen.
+  sunY=  50;
+  xMarcus=  width/2;            // Start Guy in center.
+  yMarcus=  height/2;
+  
+  dx=  random( 1,4 );     // Random speed.
+  dy=  random( -3, +1 );
+
+ xgold= width/4; //Positon of Gold
+ ygold=height/4;
+
+Gx= random(2,8); //Gold speed
+Gy= random(-3,+3);
+}
+
+// DRAW:  sky & sun plus Guy
+void draw()
+{
+  scene();
+  action();
+  show();
+  messages();            // (Display the messages last.)
+}
+
+
+
+
+// SCENE:  sky, sun, house.
+void scene() {
+  background( 120, 200, 250 );          // Blue sky
+
+  fill( 255, 255, 0 );
+ ellipse( sunX, sunY, 30, 30 );        // Yellow sun
+ 
+ 
+  fill( 255, 0, 0 );
+   rect( 200,200, 200,100);              // Red house
+   triangle( 200,200, 400,200, 300,100 );
+ 
+  fill(100,30,40);
+  rect(250,250,50,200);  //Door
+ 
+ 
+   fill( 20,255,30);
+     rect(0,300, 800, 300);           //Grass
+   
+   fill(85,42,42);
+rect(600,200, 50,100);              //Tree
+   
+   fill(20,230,40);     //Tree bush
+   ellipse(625,200,100,100);   //Tree
+   
+   fill(230,20,20);
+   ellipse(650,170,20,20);   //Apple
+   
+     fill(230,20,20);
+   ellipse(600,210,20,20);      //Apple
+   
+     fill(230,20,20);
+   ellipse(635,200,20,20);      //Apple
+   
+     fill(230,20,20);
+   ellipse(620,220,20,20);      //Apple
+     
+     fill(230,20,20);
+   ellipse(615,192,20,20);      //Apple
+}
+
+// MESSAGES.
+void messages() {
+  fill(0);
+  text( "Dynamic Scene of Guy moving and chasing gold", width/4, 15 );
+  text( "Guy follows the gold, while sun moves across the sky.", width/4, 30 );
+  text( "Click to reset Guy.\n  Press 's' key to lower the sun, 'q' to quit.", 15, height/2 );
+  // Name
+  text( "Young.M", 10, height-10 );
+}
+
+// ACTION:  sun moves (then resets to random height)
+void action() {
+  if (sunX > width) {
+    sunX=  0;
+    sunY=  random( 20, 120 );
+  }
+  sunX=  sunX + 1;
+  // Move the Guy
+  xMarcus=  xMarcus + dx;
+  yMarcus=  yMarcus + dy;
+  xgold= xgold+ Gx;
+  ygold=ygold+ Gy;
+   xMarcus=  xMarcus  +  (xgold-xMarcus) / 15;
+            yMarcus=  yMarcus  +  (ygold-yMarcus) / 15;
+            if (xgold > width) {
+    xgold=  0;
+    xgold=  random( 20, 120 );
+            }
+
+}
+
+// SHOW:  Guy follows gold
+void show() {
+  // Draw Guy
+  fill( 0, 0, 0 );
+  rect( xMarcus,yMarcus, 50, 80 );                 // Blue Guy
+  ellipse( xMarcus+25, yMarcus-20, 40, 40 );       // Head on top
+
+  fill( 255 );
+  ellipse( xMarcus+15, yMarcus-25, 12, 12 );       // Eyes.
+  ellipse( xMarcus+35, yMarcus-25, 12, 12 );
+  fill( 250, 50, 0 );
+  ellipse( xMarcus+15, yMarcus-25, 4, 4 );
+  ellipse( xMarcus+35, yMarcus-25, 4, 4 );
+  fill(255,215,0);
+   ellipse(xgold,ygold, 40,30);      //Gold Nugget
+  
+  
+  
+ 
+}
+
+
+// EVENT HANDLERS ////
+void mousePressed() {
+reset();
+  // Set the position (x,y)
+  xMarcus=  mouseX;
+  yMarcus=  mouseY;
+  
+  
+}
+void keyPressed() {
+  if (key == 'q') {
+    exit();
+  }
+  if (key == 'r') {
+    reset();
+  }
+  if (key == 's') {
+    sunY=  sunY + 50;
+  }
+}
+
+     
+
+
+
+
